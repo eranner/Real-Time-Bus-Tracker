@@ -1,33 +1,32 @@
-// This array contains the coordinates for all bus stops between MIT and Harvard
+let changeLocation = document.querySelector('.header')
 const busStops = [
-  [-71.093729, 42.359244],
-  [-71.094915, 42.360175],
-  [-71.0958, 42.360698],
-  [-71.099558, 42.362953],
-  [-71.103476, 42.365248],
-  [-71.106067, 42.366806],
-  [-71.108717, 42.368355],
-  [-71.110799, 42.369192],
-  [-71.113095, 42.370218],
-  [-71.115476, 42.372085],
-  [-71.117585, 42.373016],
-  [-71.118625, 42.374863],
+  [-75.258469, 41.576944],
+  [-75.257862, 41.574557],
+  [ -75.256534, 41.573822],
+  [-75.255089, 41.571234],
+  [-75.254599, 41.570322],
+  [-75.254166, 41.569554],
+  [-75.254317, 41.570609],
+//   [-71.110799, 42.369192],
+//   [-71.113095, 42.370218],
+//   [-71.115476, 42.372085],
+//   [-71.117585, 42.373016],
+//   [-71.118625, 42.374863],
 ];
 
-// TODO: add your own access token
-mapboxgl.accessToken =
-  'pk.eyJ1IjoidGVzdHVzZXIxMDAwIiwiYSI6ImNraDkzZ2pkMzAzMHoycnBmMXpvZ3UwZnMifQ.jAE4YsPeAJv50VK92NSpOQ';
+let names = ['The Wayne Hotel', 'Irving Cliff Brewery', 'Scarfallotos Towne House Diner', 'Here & Now Brewing Company', 'Native', 'Brankos Patisserie', 'Gravity Ice Cream']
 
-// TODO: create the map object using mapboxgl.map() function
-let map = new mapboxgl.Map({
-  container: 'map',
-  style: 'mapbox://styles/mapbox/streets-v11',
-  center: [-71.104081, 42.365554],
-  zoom: 14,
+mapboxgl.accessToken = 'pk.eyJ1IjoiZXJhbm5lciIsImEiOiJjbGJmd2RhNWYwNXZkM3ZvM3g2N3dlcjNlIn0.gCfhrv77pL22nDbttDBvSw';
+const map = new mapboxgl.Map({
+    container: 'map', // container ID
+    style: 'mapbox://styles/mapbox/streets-v12', // style URL
+    center: [-75.254758, 41.572198], // starting position [lng, lat]
+    zoom: 14 // starting zoom
 });
 
 // TODO: add a marker to the map
-let marker = new mapboxgl.Marker().setLngLat([-71.092761, 42.357575]).addTo(map);
+let marker = new mapboxgl.Marker().setLngLat([-75.258469, 41.576944]).addTo(map);
+
 
 // counter here represents the index of the current bus stop
 let counter = 0;
@@ -36,14 +35,29 @@ function move() {
   // Use counter to access bus stops in the array busStops
 
   setTimeout(() => {
-    if (counter >= busStops.length) return;
+    if (counter >= busStops.length){
+     changeLocation.textContent='Best Restaurants To Visit In Honesdale, PA!'
+     counter = 0
+      return;
+    }
     marker.setLngLat(busStops[counter]);
+    
+    changeLocation.textContent = names[counter]
     counter++;
     move();
-  }, 1000);
+  }, 2000);
 }
+let clickMe = document.getElementById('moveMarker')
+clickMe.addEventListener('click', () => {
+  move()
+  // getRoute()
+}
+)
 
-// Do not edit code past this point
-if (typeof module !== 'undefined') {
-  module.exports = { move, counter, marker, busStops };
-}
+// async function getRoute() {
+//   let data = await fetch('https://api-v3.mbta.com/docs/swagger/swagger.json/data/{index}/attributes/short_name')
+//   let read = await data.text()
+//   console.log(read)
+// }
+
+
